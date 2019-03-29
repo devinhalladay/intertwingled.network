@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "are.na": "^0.1.1",
+    "node-sass": "^4.11.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-html-parser": "^2.0.2",
     "react-scripts": "2.1.8"
   },
   "scripts": {
