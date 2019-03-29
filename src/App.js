@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import Diptych from './components/Diptych';
 import RandomButton from './components/RandomButton';
 
-const Arena = require('are.na');
-const arena = new Arena();
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +22,7 @@ class App extends Component {
     this.getRandomVersoChannel = this.getRandomVersoChannel.bind(this);
     this.getRandomRectoChannel = this.getRandomRectoChannel.bind(this);
     this.getRandomBothChannels = this.getRandomBothChannels.bind(this);
+    this.refreshVersoSheet = this.refreshVersoSheet.bind(this);
   }
 
   componentWillMount() {
@@ -71,7 +69,9 @@ class App extends Component {
       });
   }
 
-  refreshVersoSheet() {
+  refreshVersoSheet(e) {
+    e.preventDefault();
+
     fetch(`http://api.are.na/v2/channels/${this.state.versoChannel.slug}`)
       .then(response => {
         return response.json();
@@ -79,11 +79,15 @@ class App extends Component {
       .then(data => {
         this.setState({
           versoBlock: data.contents[Math.floor(Math.random() * data.contents.length)]
+        }, () => {
+          console.log(this.state.versoBlock)
         })
       })
   }
 
-  refreshRectoSheet() {
+  refreshRectoSheet(e) {
+    e.preventDefault();
+
     fetch(`http://api.are.na/v2/channels/${this.state.rectoChannel.slug}`)
       .then(response => {
         return response.json();
@@ -97,10 +101,34 @@ class App extends Component {
 
   submitVersoForm(e) {
     e.preventDefault();
+
+    let chanParts = this.versoInput.value.split('/');
+    let chan = chanParts.pop() || chanParts.pop();
+
+    fetch(`http://api.are.na/v2/channels/${chan}`)
+      .then(res => { return res.json(); })
+      .then(data => {
+        this.setState({
+          versoChannel: data,
+          versoBlock: data.contents[0]
+        })
+      })
   }
 
   submitRectoForm(e) {
     e.preventDefault();
+
+    let chanParts = this.rectoInput.value.split('/');
+    let chan = chanParts.pop() || chanParts.pop();
+
+    fetch(`http://api.are.na/v2/channels/${chan}`)
+      .then(res => { return res.json(); })
+      .then(data => {
+        this.setState({
+          rectoChannel: data,
+          rectoBlock: data.contents[0]
+        })
+      })
   }
 
   getRandomVersoChannel() {
@@ -118,11 +146,11 @@ class App extends Component {
 
   getRandomRectoChannel() {
     this.getNewChannels(() => {
-      let rectoChanel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
+      let rectoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
 
       this.setState({
-        rectoChanel: rectoChanel,
-        rectoBlock: rectoChanel.contents[0]
+        rectoChannel: rectoChannel,
+        rectoBlock: rectoChannel.contents[0]
       }, () => {
         this.rectoInput.value = `http://are.na/${this.state.rectoChannel.user.slug}/${this.state.rectoChannel.slug}`
       })
@@ -132,16 +160,16 @@ class App extends Component {
   getRandomBothChannels() {
     this.getNewChannels(() => {
       let versoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
-      let rectoChanel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
+      let rectoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
       
       this.setState({
         versoChannel: versoChannel,
         versoBlock: versoChannel.contents[0],
-        rectoChanel: rectoChanel,
-        rectoBlock: rectoChanel.contents[0]
+        rectoChannel: rectoChannel,
+        rectoBlock: rectoChannel.contents[0]
       }, () => {
-        this.rectoInput.value = `http://are.na/${this.state.rectoChannel.user.slug}/${this.state.rectoChannel.slug}`;
         this.versoInput.value = `http://are.na/${this.state.versoChannel.user.slug}/${this.state.versoChannel.slug}`;
+        this.rectoInput.value = `http://are.na/${this.state.rectoChannel.user.slug}/${this.state.rectoChannel.slug}`;
       })
     })
   }
@@ -152,7 +180,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.loading == true) {
+    if (this.state.loading === true) {
       return (
         <div className="App">
           <p>Loading…</p>
@@ -163,7 +191,7 @@ class App extends Component {
         <div className="App">
           <div className="form-container">
             <form onSubmit={this.submitVersoForm}>
-              <button className="button-white button-refresh" onClick={this.refreshVersoSheet.bind(this)}>
+              <button className="button-white button-refresh" onClick={this.refreshVersoSheet}>
                 <svg width="22px" height="22px" viewBox="0 0 22 22">
                   <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <g id="check-circle" transform="translate(11.000000, 11.000000) rotate(-315.000000) translate(-11.000000, -11.000000) translate(-3.000000, -3.000000)">
