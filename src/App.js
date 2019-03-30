@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Diptych from './components/Diptych';
 import RandomButton from './components/RandomButton';
 
+import ReactGA from 'react-ga';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +28,8 @@ class App extends Component {
   }
 
   componentWillMount() {
+    ReactGA.initialize('UA-54086893-5');
+
     this.getNewChannels(() => {
       this.setState({
         versoChannel: this.state.allChannels.slice(1, 2)[0],
@@ -70,9 +74,14 @@ class App extends Component {
   }
 
   refreshVersoSheet(e) {
+    ReactGA.event({
+      category: 'Refresh',
+      action: 'Refreshed Verso',
+    });
+    
     e.preventDefault();
 
-    fetch(`http://api.are.na/v2/channels/${this.state.versoChannel.slug}`)
+    fetch(`http://api.are.na/v2/channels/${this.state.versoChannel.slug}?per=100`)
       .then(response => {
         return response.json();
       })
@@ -86,9 +95,14 @@ class App extends Component {
   }
 
   refreshRectoSheet(e) {
+    ReactGA.event({
+      category: 'Refresh',
+      action: 'Refreshed Recto',
+    });
+
     e.preventDefault();
 
-    fetch(`http://api.are.na/v2/channels/${this.state.rectoChannel.slug}`)
+    fetch(`http://api.are.na/v2/channels/${this.state.rectoChannel.slug}?per=100`)
       .then(response => {
         return response.json();
       })
@@ -100,6 +114,11 @@ class App extends Component {
   }
 
   submitVersoForm(e) {
+    ReactGA.event({
+      category: 'Submit',
+      action: 'Submitted Verso',
+    });
+
     e.preventDefault();
 
     let chanParts = this.versoInput.value.split('/');
@@ -116,12 +135,17 @@ class App extends Component {
   }
 
   submitRectoForm(e) {
+    ReactGA.event({
+      category: 'Submit',
+      action: 'Submitted Recto',
+    });
+
     e.preventDefault();
 
     let chanParts = this.rectoInput.value.split('/');
     let chan = chanParts.pop() || chanParts.pop();
 
-    fetch(`http://api.are.na/v2/channels/${chan}`)
+    fetch(`http://api.are.na/v2/channels/${chan}?per=100`)
       .then(res => { return res.json(); })
       .then(data => {
         this.setState({
@@ -132,6 +156,11 @@ class App extends Component {
   }
 
   getRandomVersoChannel() {
+    ReactGA.event({
+      category: 'Random',
+      action: 'Got Random Verso',
+    });
+
     this.getNewChannels(() => {
       let versoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
 
@@ -145,6 +174,11 @@ class App extends Component {
   }
 
   getRandomRectoChannel() {
+    ReactGA.event({
+      category: 'Random',
+      action: 'Got Random Recto',
+    });
+
     this.getNewChannels(() => {
       let rectoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
 
@@ -158,6 +192,11 @@ class App extends Component {
   }
 
   getRandomBothChannels() {
+    ReactGA.event({
+      category: 'Random',
+      action: 'Got Both Random',
+    });
+
     this.getNewChannels(() => {
       let versoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
       let rectoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];

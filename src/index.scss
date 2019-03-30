@@ -60,6 +60,7 @@ input[type="text"] {
   background-color: #fff;
   outline: none;
   flex-grow: 1;
+  margin-left: -1px;
 
   &:focus {
     border-color: #000;
