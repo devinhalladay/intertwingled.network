@@ -9,12 +9,14 @@ export default class Diptych extends Component {
         <Sheet 
           side="verso"
           channel={this.props.versoChannel} 
-          block={this.props.versoBlock} 
+          block={this.props.versoBlock}
+          loading={this.props.versoLoading}
         />
         <Sheet 
           side="recto"
           channel={this.props.rectoChannel} 
           block={this.props.rectoBlock} 
+          loading={this.props.rectoLoading}
         />
       </div>
     )

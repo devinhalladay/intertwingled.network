@@ -15,6 +15,8 @@ class App extends Component {
       versoBlock: null,
       rectoBlock: null,
       loading: true,
+      versoLoading: false,
+      rectoLoading: false
     })
 
     this.getNewChannels = this.getNewChannels.bind(this);
@@ -30,6 +32,11 @@ class App extends Component {
   componentWillMount() {
     ReactGA.initialize('UA-54086893-5');
 
+    this.setState({
+      versoLoading: true,
+      rectoLoading: true
+    })
+
     this.getNewChannels(() => {
       this.setState({
         versoChannel: this.state.allChannels.slice(1, 2)[0],
@@ -40,7 +47,9 @@ class App extends Component {
           rectoBlock: this.state.rectoChannel.contents[0]
         }, () => {
           this.setState({
-            loading: false
+            loading: false,
+            rectoLoading: false,
+            versoLoading: false
           })
         })
       })
@@ -78,6 +87,10 @@ class App extends Component {
       category: 'Refresh',
       action: 'Refreshed Verso',
     });
+
+    this.setState({
+      versoLoading: true,
+    })
     
     e.preventDefault();
 
@@ -89,7 +102,9 @@ class App extends Component {
         this.setState({
           versoBlock: data.contents[Math.floor(Math.random() * data.contents.length)]
         }, () => {
-          console.log(this.state.versoBlock)
+          this.setState({
+            versoLoading: false,
+          })
         })
       })
   }
@@ -100,6 +115,10 @@ class App extends Component {
       action: 'Refreshed Recto',
     });
 
+    this.setState({
+      rectoLoading: true,
+    })
+
     e.preventDefault();
 
     fetch(`http://api.are.na/v2/channels/${this.state.rectoChannel.slug}?per=100`)
@@ -109,6 +128,10 @@ class App extends Component {
       .then(data => {
         this.setState({
           rectoBlock: data.contents[Math.floor(Math.random() * data.contents.length)]
+        }, () => {
+          this.setState({
+            rectoLoading: false
+          })
         })
       })
   }
@@ -118,6 +141,10 @@ class App extends Component {
       category: 'Submit',
       action: 'Submitted Verso',
     });
+
+    this.setState({
+      versoLoading: true
+    })
 
     e.preventDefault();
 
@@ -130,6 +157,10 @@ class App extends Component {
         this.setState({
           versoChannel: data,
           versoBlock: data.contents[0]
+        }, () => {
+          this.setState({
+            versoLoading: false
+          })
         })
       })
   }
@@ -139,6 +170,10 @@ class App extends Component {
       category: 'Submit',
       action: 'Submitted Recto',
     });
+
+    this.setState({
+      rectoLoading: true
+    })
 
     e.preventDefault();
 
@@ -151,6 +186,10 @@ class App extends Component {
         this.setState({
           rectoChannel: data,
           rectoBlock: data.contents[0]
+        }, () => {
+          this.setState({
+            rectoLoading: false
+          })
         })
       })
   }
@@ -161,6 +200,10 @@ class App extends Component {
       action: 'Got Random Verso',
     });
 
+    this.setState({
+      versoLoading: true
+    })
+
     this.getNewChannels(() => {
       let versoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
 
@@ -168,7 +211,10 @@ class App extends Component {
         versoChannel: versoChannel,
         versoBlock: versoChannel.contents[0]
       }, () => {
-        this.versoInput.value = `http://are.na/${this.state.versoChannel.user.slug}/${this.state.versoChannel.slug}`
+        this.versoInput.value = `http://are.na/${this.state.versoChannel.user.slug}/${this.state.versoChannel.slug}`;
+        this.setState({
+          versoLoading: false
+        });
       })
     })
   }
@@ -179,6 +225,10 @@ class App extends Component {
       action: 'Got Random Recto',
     });
 
+    this.setState({
+      rectoLoading: true
+    })
+
     this.getNewChannels(() => {
       let rectoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
 
@@ -186,7 +236,10 @@ class App extends Component {
         rectoChannel: rectoChannel,
         rectoBlock: rectoChannel.contents[0]
       }, () => {
-        this.rectoInput.value = `http://are.na/${this.state.rectoChannel.user.slug}/${this.state.rectoChannel.slug}`
+        this.rectoInput.value = `http://are.na/${this.state.rectoChannel.user.slug}/${this.state.rectoChannel.slug}`;
+        this.setState({
+          rectoLoading: false
+        })
       })
     })
   }
@@ -196,6 +249,11 @@ class App extends Component {
       category: 'Random',
       action: 'Got Both Random',
     });
+
+    this.setState({
+      versoLoading: true,
+      rectoLoading: true
+    })
 
     this.getNewChannels(() => {
       let versoChannel = this.state.allChannels[Math.floor(Math.random() * this.state.allChannels.length)];
@@ -209,6 +267,10 @@ class App extends Component {
       }, () => {
         this.versoInput.value = `http://are.na/${this.state.versoChannel.user.slug}/${this.state.versoChannel.slug}`;
         this.rectoInput.value = `http://are.na/${this.state.rectoChannel.user.slug}/${this.state.rectoChannel.slug}`;
+        this.setState({
+          versoLoading: false,
+          rectoLoading: false
+        })
       })
     })
   }
@@ -279,6 +341,8 @@ class App extends Component {
             rectoBlock={this.state.rectoBlock}
             versoChannel={this.state.versoChannel}
             versoBlock={this.state.versoBlock}
+            versoLoading={this.state.versoLoading}
+            rectoLoading={this.state.rectoLoading}
           />
         </div>
       )

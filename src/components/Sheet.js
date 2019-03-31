@@ -60,19 +60,27 @@ export default class Sheet extends Component {
       )
     }
 
-    return (
-      <React.Fragment>
+    if (this.props.loading) {
+      return (
         <div className={this.props.side}>
-          {blockRepresentation}
+          <p>Loading…</p>
         </div>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          <div className={this.props.side}>
+            {blockRepresentation}
+          </div>
 
-        <div className={this.props.side === "verso" ? "utility-button-container left" : "utility-button-container right"}>
-          <a className="visit-button button-white" target="_blank" rel="noopener noreferrer" href={`http://are.na/${channel.slug}/${channel.slug}`}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-            Visit Channel
+          <div className={this.props.side === "verso" ? "utility-button-container left" : "utility-button-container right"}>
+            <a className="visit-button button-white" target="_blank" rel="noopener noreferrer" href={`http://are.na/${channel.slug}/${channel.slug}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+              Visit Channel
           </a>
-        </div>
-      </React.Fragment>
-    )
+          </div>
+        </React.Fragment>
+      )
+    }
   }
 }
