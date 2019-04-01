@@ -350,7 +350,7 @@ class App extends Component {
 
           <div className="info">
             <div className="content">
-              <h1>"Everything is deeply intertwingled."<br/>— Ted Nelson</h1>
+              <h2>"Everything is deeply intertwingled."<br/>— Ted Nelson</h2>
               <p>Intertwingled.Network is a free utility for generating unexpected connections between disparate pieces of content. Discover new channels by shuffling either or both sides, or compare specific channels by entering their Are.na URLs in either side. This utility is a partner to <a href="differance.network">Différance.Network</a>.</p>
               <p>The source is <a href="https://github.com/devinhalladay/intertwingled.network">available to you</a>, as always. Every good tool should be open source. Everyone deserves access to ideas, access to tools, access to means and access to ends.</p>
             </div>

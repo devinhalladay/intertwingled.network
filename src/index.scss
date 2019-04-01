@@ -38,6 +38,7 @@ img {
   right: 0;
   left: 0;
   overflow-x: scroll;
+  z-index: 9999;
 }
 
 .container {
@@ -328,6 +329,13 @@ input[type="submit"] {
   .content {
     max-width: 600px;
     padding: 0 20px;
+    font-size: 20px;
+    line-height: 1.6;
+
+    h2 {
+      line-height: 1.2;
+      font-weight: 500;
+    }
   }
 }
 
