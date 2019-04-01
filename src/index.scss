@@ -16,6 +16,13 @@ img {
 .container, .form-container {
   display: flex;
   flex-direction: row;
+
+  -webkit-filter: blur(0);
+  filter: blur(0);
+  -webkit-transition: -webkit-filter 0.5s cubic-bezier(.215,.61,.355,1);
+  transition: -webkit-filter 0.5s cubic-bezier(.215,.61,.355,1);
+  transition: filter 0.5s cubic-bezier(.215,.61,.355,1);
+  transition: filter 0.5s cubic-bezier(.215,.61,.355,1),-webkit-filter 0.5s cubic-bezier(.215,.61,.355,1);
 }
 
 #root {
@@ -289,5 +296,38 @@ input[type="submit"] {
 
   @media (max-width: 800px) {
     display: none;
+  }
+}
+
+.info-button-center {
+  position: fixed;
+  display: inline-block;
+  bottom: 20px;
+  left: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+}
+
+.info {
+  display: none;
+  z-index: 900;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: hsla(0,0%,98%,.7);
+}
+
+.info-open {
+  .info {
+    display: flex;
+  }
+
+  .container, .form-container {
+    -webkit-filter: blur(4px);
+    filter: blur(4px);
   }
 }

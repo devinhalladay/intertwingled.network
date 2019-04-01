@@ -16,7 +16,8 @@ class App extends Component {
       rectoBlock: null,
       loading: true,
       versoLoading: false,
-      rectoLoading: false
+      rectoLoading: false,
+      infoOpen: false
     })
 
     this.getNewChannels = this.getNewChannels.bind(this);
@@ -27,6 +28,7 @@ class App extends Component {
     this.getRandomRectoChannel = this.getRandomRectoChannel.bind(this);
     this.getRandomBothChannels = this.getRandomBothChannels.bind(this);
     this.refreshVersoSheet = this.refreshVersoSheet.bind(this);
+    this.infoClickHandler = this.infoClickHandler.bind(this);
   }
 
   componentWillMount() {
@@ -280,6 +282,12 @@ class App extends Component {
       .then(res => { return res.data })
   }
 
+  infoClickHandler() {
+    this.setState({
+      infoOpen: !this.state.infoOpen
+    })
+  }
+
   render() {
     if (this.state.loading === true) {
       return (
@@ -289,10 +297,10 @@ class App extends Component {
       );
     } else {
       return (
-        <div className="App">
+        <div className={this.state.infoOpen ? "App info-open" : "App"}>
           <div className="form-container">
             <form onSubmit={this.submitVersoForm}>
-              <button className="button-white button-refresh" onClick={this.refreshVersoSheet}>
+              <button type="button" className="button-white button-refresh" onClick={this.refreshVersoSheet}>
                 <svg width="22px" height="22px" viewBox="0 0 22 22">
                   <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <g id="check-circle" transform="translate(11.000000, 11.000000) rotate(-315.000000) translate(-11.000000, -11.000000) translate(-3.000000, -3.000000)">
@@ -314,7 +322,7 @@ class App extends Component {
             </form>
             <RandomButton center clickHandler={this.getRandomBothChannels} />
             <form onSubmit={this.submitRectoForm}>
-              <button className="button-white button-refresh" onClick={this.refreshRectoSheet.bind(this)}>
+              <button type="button" className="button-white button-refresh" onClick={this.refreshRectoSheet.bind(this)}>
                 <svg width="22px" height="22px" viewBox="0 0 22 22">
                   <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                     <g id="check-circle" transform="translate(11.000000, 11.000000) rotate(-315.000000) translate(-11.000000, -11.000000) translate(-3.000000, -3.000000)">
@@ -334,6 +342,14 @@ class App extends Component {
               <input type="submit" name="rectoSubmit" value="GO" />
               <RandomButton clickHandler={this.getRandomRectoChannel} />
             </form>
+          </div>
+
+          <button className='info-button-center button-white' onClick={this.infoClickHandler}>
+            About
+          </button>
+
+          <div className="info">
+            <h1>"Everything is deeply intertwingled." — Ted Nelson</h1>
           </div>
 
           <Diptych 
