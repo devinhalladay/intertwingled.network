@@ -349,3 +349,11 @@ input[type="submit"] {
     filter: blur(4px);
   }
 }
+
+.loading {
+  position: absolute;
+  left: 50%;
+  margin-left: -50px;
+  top: 50%;
+  margin-top: -50px;
+}

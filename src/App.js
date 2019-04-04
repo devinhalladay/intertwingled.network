@@ -50,8 +50,8 @@ class App extends Component {
         }, () => {
           this.setState({
             loading: false,
-            rectoLoading: false,
-            versoLoading: false
+            versoLoading: false,
+            rectoLoading: false
           })
         })
       })
@@ -292,7 +292,7 @@ class App extends Component {
     if (this.state.loading === true) {
       return (
         <div className="App">
-          <p>Loading…</p>
+          <p className="loading">Loading…</p>
         </div>
       );
     } else {
