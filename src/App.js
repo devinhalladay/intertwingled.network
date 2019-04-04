@@ -42,7 +42,7 @@ class App extends Component {
     this.getNewChannels(() => {
       this.setState({
         versoChannel: this.state.allChannels.slice(1, 2)[0],
-        rectoChannel: this.state.allChannels.slice(0, 1)[0]
+        rectoChannel: this.state.allChannels.slice(3, 4)[0]
       }, () => {
         this.setState({
           versoBlock: this.state.versoChannel.contents[0],
@@ -62,13 +62,13 @@ class App extends Component {
     let totalPages;
     let channels;
 
-    fetch('http://api.are.na/v2/channels?per=100')
+    fetch('https://api.are.na/v2/channels?per=100')
       .then(response => {
         return response.json();
       }).then(data => {
         totalPages = data.total_pages;
 
-        fetch(`http://api.are.na/v2/channels?page=${Math.floor(Math.random() * Math.floor(totalPages))}&amp;per=100`).then(response => {
+        fetch(`https://api.are.na/v2/channels?page=${Math.floor(Math.random() * Math.floor(totalPages))}&amp;per=100`).then(response => {
           return response.json();
         }).then(data => {
           channels = data.channels.filter(obj => obj.length > 2);
@@ -80,6 +80,8 @@ class App extends Component {
           if (callback) {
             callback();
           }
+        }).catch(() => {
+          this.getNewChannels(callback)
         })
       });
   }
@@ -96,7 +98,7 @@ class App extends Component {
     
     e.preventDefault();
 
-    fetch(`http://api.are.na/v2/channels/${this.state.versoChannel.slug}?per=100`)
+    fetch(`https://api.are.na/v2/channels/${this.state.versoChannel.slug}?per=100`)
       .then(response => {
         return response.json();
       })
@@ -123,7 +125,7 @@ class App extends Component {
 
     e.preventDefault();
 
-    fetch(`http://api.are.na/v2/channels/${this.state.rectoChannel.slug}?per=100`)
+    fetch(`https://api.are.na/v2/channels/${this.state.rectoChannel.slug}?per=100`)
       .then(response => {
         return response.json();
       })
@@ -153,7 +155,7 @@ class App extends Component {
     let chanParts = this.versoInput.value.split('/');
     let chan = chanParts.pop() || chanParts.pop();
 
-    fetch(`http://api.are.na/v2/channels/${chan}`)
+    fetch(`https://api.are.na/v2/channels/${chan}`)
       .then(res => { return res.json(); })
       .then(data => {
         this.setState({
@@ -182,7 +184,7 @@ class App extends Component {
     let chanParts = this.rectoInput.value.split('/');
     let chan = chanParts.pop() || chanParts.pop();
 
-    fetch(`http://api.are.na/v2/channels/${chan}?per=100`)
+    fetch(`https://api.are.na/v2/channels/${chan}?per=100`)
       .then(res => { return res.json(); })
       .then(data => {
         this.setState({
@@ -278,7 +280,7 @@ class App extends Component {
   }
 
   getChannel(channel) {
-    return fetch(`http://api.are.na/v2/channels/${channel}`)
+    return fetch(`https://api.are.na/v2/channels/${channel}`)
       .then(res => { return res.data })
   }
 
