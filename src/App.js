@@ -285,6 +285,11 @@ class App extends Component {
   }
 
   infoClickHandler() {
+    ReactGA.event({
+      category: 'About',
+      action: 'Clicked About',
+    });
+
     this.setState({
       infoOpen: !this.state.infoOpen
     })

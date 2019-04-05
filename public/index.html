@@ -22,7 +22,25 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Intertwingled.Network</title>
+
+    <!-- Search Engine -->
+    <meta name="description"
+      content="An Are.na utility for generating unexpected connections between disparate pieces of content.">
+    <meta name="image" content="%PUBLIC_URL%/social.png">
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="Intertwingled.Network">
+    <meta itemprop="description"
+      content="An Are.na utility for generating unexpected connections between disparate pieces of content.">
+    <meta itemprop="image" content="%PUBLIC_URL%/social.png">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:site" content="@devinhalladay">
+    <meta property="twitter:creator" content="@devinhalladay">
+    <meta property="twitter:title" content="Intertwingled.Network">
+    <meta property="twitter:description"
+      content="An Are.na utility for generating unexpected connections between disparate pieces of content.">
+    <meta property="twitter:image" content="%PUBLIC_URL%/social.png">
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -46,5 +64,21 @@
 
       gtag('config', 'UA-54086893-5');
     </script>
+
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+    <script>
+      (function (f, a, t, h, o, m) {
+        a[h] = a[h] || function () {
+          (a[h].q = a[h].q || []).push(arguments)
+        };
+        o = f.createElement('script'),
+          m = f.getElementsByTagName('script')[0];
+        o.async = 1; o.src = t; o.id = 'fathom-script';
+        m.parentNode.insertBefore(o, m)
+      })(document, window, '//dh-a.herokuapp.com/tracker.js', 'fathom');
+      fathom('set', 'siteId', 'HYXRQ');
+      fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
   </body>
 </html>
